@@ -19,7 +19,7 @@ CerebrAMO usa **OpenCode como capa de proveedores**. No lee ni copia `~/.local/s
 Para conectar Claude:
 
 ```bash
-./bin/cerebramo auth claude
+python3 cerebramo.py auth claude
 ```
 
 CerebrAMO ejecuta el flujo oficial de OpenCode:
@@ -33,13 +33,13 @@ Ahí OpenCode te ofrece los métodos de autenticación disponibles para Anthropi
 Después:
 
 ```bash
-./bin/cerebramo status
+python3 cerebramo.py status
 ```
 
 Y para probar una tarea solo con Claude:
 
 ```bash
-./bin/cerebramo run --provider claude "Respondé solamente: CEREBRAMO_OK"
+python3 cerebramo.py run --provider claude "Respondé solamente: CEREBRAMO_OK"
 ```
 
 > Una cuenta gratuita de Claude.ai y una clave de Claude API no son lo mismo. Que puedas iniciar sesión en Claude Free no garantiza que tengas cuota API ni que un cliente de terceros pueda usar ese plan. CerebrAMO no intenta reutilizar cookies, contraseñas ni tokens privados de claude.ai.
@@ -49,13 +49,13 @@ Y para probar una tarea solo con Claude:
 Configurar el orden:
 
 ```bash
-./bin/cerebramo set-order claude minimax openrouter
+python3 cerebramo.py set-order claude minimax openrouter
 ```
 
 Ejecutar:
 
 ```bash
-./bin/cerebramo run "Revisá este proyecto y ejecutá sus tests"
+python3 cerebramo.py run "Revisá este proyecto y ejecutá sus tests"
 ```
 
 Si el comando de OpenCode para Claude devuelve error, CerebrAMO intenta el siguiente proveedor configurado.
@@ -63,7 +63,7 @@ Si el comando de OpenCode para Claude devuelve error, CerebrAMO intenta el sigui
 Para fijar un modelo concreto:
 
 ```bash
-./bin/cerebramo set-model claude anthropic/ID_DEL_MODELO
+python3 cerebramo.py set-model claude anthropic/ID_DEL_MODELO
 ```
 
 Los IDs reales disponibles se pueden ver con:
