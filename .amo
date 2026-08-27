@@ -1,0 +1,58 @@
+{
+  "schema": "desarrollamo.amo.v1",
+  "amo_version": "1.0.0",
+  "id": "cerebramo",
+  "name": "CerebrAMO",
+  "kind": "intelligence",
+  "origin": "legacy",
+  "membership": "candidate",
+  "trust": "inspected",
+  "unit": {
+    "purpose": "Enrutar tareas entre proveedores de IA sin acoplar la tarea a un proveedor concreto.",
+    "responsibility": "Gestionar orden de proveedores, failover y delegación de autenticación a OpenCode sin copiar secretos.",
+    "owner": "human_responsible",
+    "capabilities": ["llm-routing", "provider-failover", "provider-auth-delegation"]
+  },
+  "model": {
+    "inherits": [],
+    "context": ["README.md", "cerebramo.py", "tests", ".github/workflows/test.yml"],
+    "rules": [
+      "CerebrAMO no debe almacenar claves de proveedores en Git.",
+      "La autenticación de proveedores se delega a OpenCode.",
+      "Los cambios deben conservar tests unitarios verdes antes de integrarse."
+    ]
+  },
+  "map": {
+    "parent": "raizamo",
+    "children": [],
+    "relations": [
+      {"type": "orchestrates", "target": "external-llm-providers", "strength": "strong"}
+    ],
+    "covers": ["cerebramo.py", "bin/**", "tests/**"]
+  },
+  "policy": {
+    "contains_provider_credentials": false,
+    "delegates_authentication": true
+  },
+  "provenance": {
+    "source_uri": "https://github.com/amoedo7/CerebrAMO",
+    "source_type": "git-repository",
+    "source_ref": "main"
+  },
+  "health": {
+    "checks": [
+      {
+        "id": "cerebramo-autocheck",
+        "type": "command",
+        "command": "bash scripts/autocheck.sh",
+        "cwd": ".",
+        "timeout_seconds": 120,
+        "description": "Compila sintaxis Python, ejecuta tests unitarios y verifica que el repositorio no contenga patrones obvios de credenciales de proveedores."
+      }
+    ]
+  },
+  "evidence": {
+    "status": "inspected",
+    "refs": [".github/workflows/test.yml", "scripts/autocheck.sh", "tests"]
+  }
+}
