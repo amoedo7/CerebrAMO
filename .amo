@@ -8,10 +8,17 @@
   "membership": "candidate",
   "trust": "inspected",
   "unit": {
-    "purpose": "Enrutar tareas entre proveedores de IA sin acoplar la tarea a un proveedor concreto.",
-    "responsibility": "Gestionar orden de proveedores, failover y delegación de autenticación a OpenCode sin copiar secretos.",
+    "purpose": "Enrutar tareas entre proveedores de IA y mantener un inventario verificable de combustible, cuotas y salud del ecosistema.",
+    "responsibility": "Gestionar failover de IA y normalizar recursos con valor, límite, vencimiento/reset, fuente, última lectura y estado, sin inventar métricas ni copiar secretos.",
     "owner": "human_responsible",
-    "capabilities": ["llm-routing", "provider-failover", "provider-auth-delegation"]
+    "capabilities": [
+      "llm-routing",
+      "provider-failover",
+      "provider-auth-delegation",
+      "resource-inventory",
+      "host-telemetry",
+      "quota-health-dashboard"
+    ]
   },
   "model": {
     "inherits": [],
@@ -19,6 +26,8 @@
     "rules": [
       "CerebrAMO no debe almacenar claves de proveedores en Git.",
       "La autenticación de proveedores se delega a OpenCode.",
+      "Un recurso sin fuente válida debe permanecer unknown; nunca se fabrican saldos, cuotas o estados.",
+      "La telemetría local del host puede leerse directamente cuando no requiere privilegios adicionales.",
       "Los cambios deben conservar tests unitarios verdes antes de integrarse."
     ]
   },
@@ -26,13 +35,17 @@
     "parent": "raizamo",
     "children": [],
     "relations": [
-      {"type": "orchestrates", "target": "external-llm-providers", "strength": "strong"}
+      {"type": "orchestrates", "target": "external-llm-providers", "strength": "strong"},
+      {"type": "observes", "target": "damo-host", "strength": "strong"},
+      {"type": "observes", "target": "external-resource-providers", "strength": "medium"}
     ],
     "covers": ["cerebramo.py", "bin/**", "tests/**"]
   },
   "policy": {
     "contains_provider_credentials": false,
-    "delegates_authentication": true
+    "delegates_authentication": true,
+    "unknown_is_not_pass": true,
+    "resource_sources_must_be_explicit": true
   },
   "provenance": {
     "source_uri": "https://github.com/amoedo7/CerebrAMO",
