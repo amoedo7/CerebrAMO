@@ -22,7 +22,7 @@
   },
   "model": {
     "inherits": [],
-    "context": ["README.md", "cerebramo.py", "tests", ".github/workflows/test.yml"],
+    "context": ["README.md", "RECOVERY.md", "cerebramo.py", "tests", ".github/workflows/test.yml"],
     "rules": [
       "CerebrAMO no debe almacenar claves de proveedores en Git.",
       "La autenticación de proveedores se delega a OpenCode.",
@@ -39,7 +39,7 @@
       {"type": "observes", "target": "damo-host", "strength": "strong"},
       {"type": "observes", "target": "external-resource-providers", "strength": "medium"}
     ],
-    "covers": ["cerebramo.py", "bin/**", "tests/**"]
+    "covers": ["cerebramo.py", "bin/**", "tests/**", "RECOVERY.md"]
   },
   "policy": {
     "contains_provider_credentials": false,
@@ -66,6 +66,6 @@
   },
   "evidence": {
     "status": "inspected",
-    "refs": [".github/workflows/test.yml", "scripts/autocheck.sh", "tests"]
+    "refs": [".github/workflows/test.yml", "scripts/autocheck.sh", "tests", "RECOVERY.md"]
   }
 }
